@@ -1,0 +1,12 @@
+services:
+  watermark:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: local/id-watermark:v4
+    container_name: id-watermark
+    restart: unless-stopped
+    ports:
+      - "8172:80"
+    security_opt:
+      - no-new-privileges:true
