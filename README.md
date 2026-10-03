@@ -16,8 +16,15 @@
 
 ## 📦 使用
 
-👉 在线体验：  
-https://tools.baiyuyu.com/watermark/
+本项目为纯静态页面，可直接用 Docker 自托管，运行时不产生任何外部网络请求：
+
+```sh
+git clone https://github.com/EasonFP/fullscreen-id-watermark.git
+cd fullscreen-id-watermark
+docker compose up -d --build
+```
+
+然后访问 `http://<主机地址>:8172`。
 
 ## 🚀 介绍
 
@@ -77,8 +84,15 @@ https://tools.baiyuyu.com/watermark/
 
 ## 📦 Usage
 
-👉 Online Demo:  
-https://tools.baiyuyu.com/watermark/
+This is a pure static page and can be self-hosted with Docker. It makes no external network requests at runtime:
+
+```sh
+git clone https://github.com/EasonFP/fullscreen-id-watermark.git
+cd fullscreen-id-watermark
+docker compose up -d --build
+```
+
+Then open `http://<host>:8172`.
 
 ## 🚀 Introduction
 
