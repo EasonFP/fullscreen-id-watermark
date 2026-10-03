@@ -9,13 +9,8 @@
   <meta name="description" content="一个在本地为各类证件图片添加全屏保护水印的小工具，仅在浏览器本地处理，可离线使用" />
   <meta name="keywords" content="证件水印,全屏水印,防盗用水印,在线水印工具,图片水印,批量水印,离线工具" />
   
-  <!-- Favicon -->
-  <link rel="icon" type="image/x-icon" href="favicon.ico" />
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
-  <link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192x192.png" />
-  <link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png" />
+  <!-- Favicon：本地 SVG，同时用作页面 Logo -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   
   <!-- 字体：不再从 CDN 加载，改用系统自带字体，确保离线/纯内网环境下不产生任何外部网络请求 -->
   <style>
@@ -350,7 +345,8 @@
       gap: 6px;
     }
     .advanced-toggle .toggle-icon {
-      font-size: 14px;
+      font-size: 16px;
+      line-height: 1;
       color: #9ca3af;
       transition: transform .2s ease;
     }
@@ -440,6 +436,39 @@
       font-size: 12px;
       line-height: 1.5;
     }
+
+    /* ==================== 内置图标（纯 CSS + 内联 SVG，无任何外部请求） ====================
+       用法：给任意元素加 data-ic="名称"，图标会通过 ::before 渲染，颜色跟随 currentColor。
+       不放在元素内容里，所以 JS 修改 textContent 时图标不会丢失。
+       图标形状来自 Lucide（ISC 许可证）。 */
+    [data-ic]::before {
+      content: '';
+      display: inline-block;
+      flex: none;
+      width: 1.15em;
+      height: 1.15em;
+      vertical-align: -0.2em;
+      background: currentColor;
+      -webkit-mask: var(--ic) center / contain no-repeat;
+      mask: var(--ic) center / contain no-repeat;
+    }
+    .btn[data-ic] { gap: 6px; }
+    .btn.sm[data-ic] { gap: 4px; }
+    .help[data-ic]::before, .help [data-ic]::before { margin-right: 4px; }
+    [data-ic="download"] { --ic: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4'/%3E%3Cpath d='m7 10 5 5 5-5'/%3E%3Cpath d='M12 15V3'/%3E%3C/svg%3E"); }
+    [data-ic="trash"] { --ic: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 6h18'/%3E%3Cpath d='M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6'/%3E%3Cpath d='M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2'/%3E%3C/svg%3E"); }
+    [data-ic="image-plus"] { --ic: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M16 5h6'/%3E%3Cpath d='M19 2v6'/%3E%3Cpath d='M21 11.5V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7.5'/%3E%3Cpath d='m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3C/svg%3E"); }
+    [data-ic="reset"] { --ic: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8'/%3E%3Cpath d='M3 3v5h5'/%3E%3C/svg%3E"); }
+    [data-ic="sliders"] { --ic: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 4h-7'/%3E%3Cpath d='M10 4H3'/%3E%3Cpath d='M21 12h-9'/%3E%3Cpath d='M8 12H3'/%3E%3Cpath d='M21 20h-5'/%3E%3Cpath d='M12 20H3'/%3E%3Cpath d='M14 2v4'/%3E%3Cpath d='M8 10v4'/%3E%3Cpath d='M16 18v4'/%3E%3C/svg%3E"); }
+    [data-ic="chevron"] { --ic: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); }
+    [data-ic="upload"] { --ic: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 14.9A7 7 0 1 1 15.7 8h1.8a4.5 4.5 0 0 1 2.5 8.2'/%3E%3Cpath d='M12 12v9'/%3E%3Cpath d='m16 16-4-4-4 4'/%3E%3C/svg%3E"); }
+    [data-ic="zap"] { --ic: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M13 2 3 14h9l-1 8 10-12h-9z'/%3E%3C/svg%3E"); }
+    [data-ic="bulb"] { --ic: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5'/%3E%3Cpath d='M9 18h6'/%3E%3Cpath d='M10 22h4'/%3E%3C/svg%3E"); }
+    [data-ic="id-card"] { --ic: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect width='20' height='14' x='2' y='5' rx='2'/%3E%3Ccircle cx='8' cy='11' r='2'/%3E%3Cpath d='M14 10h4'/%3E%3Cpath d='M14 14h4'/%3E%3Cpath d='M5 17c.6-1.6 4.4-1.6 6 0'/%3E%3C/svg%3E"); }
+    .dropHint .drop-icon { display: block; font-size: 44px; color: #a8a29e; margin-bottom: 8px; transition: color .15s ease, transform .15s ease; }
+    .dropHint .drop-icon::before { width: 1em; height: 1em; }
+    .dropHint .drop-inner { text-align: center; }
+    .previewWrap.dragover .dropHint .drop-icon { color: #111827; transform: translateY(-3px); }
 
     /* ==================== 预览区样式 ==================== */
     .workspace { display: grid; gap: 14px; }
@@ -978,15 +1007,15 @@
     <header>
       <div>
         <h1>
-          <img src="favicon-32x32.png" alt="logo" class="site-icon" />
+          <img src="favicon.svg" alt="logo" class="site-icon" />
           证件全屏水印助手
           <span class="pill">V4.26</span>
         </h1>
         <div class="sub">为各类证件图片添加全屏保护水印，仅在浏览器本地处理，可离线使用</div>
       </div>
       <div class="row">
-        <button id="processAll" class="btn primary">处理全部并下载</button>
-        <button id="clear" class="btn ghost">清空列表</button>
+        <button id="processAll" class="btn primary" data-ic="download">处理全部并下载</button>
+        <button id="clear" class="btn ghost" data-ic="trash">清空列表</button>
       </div>
     </header>
 
@@ -999,7 +1028,7 @@
             <button class="btn sm ghost token" data-token="{time}" type="button">{time}</button>
             <button class="btn sm ghost token" data-token="{filename}" type="button">{filename}</button>
           </div>
-          <button id="resetSettings" class="btn sm ghost" type="button" title="重置为默认样式">重置为默认样式</button>
+          <button id="resetSettings" class="btn sm ghost" type="button" title="重置为默认样式" data-ic="reset">重置为默认样式</button>
         </div>
 
         <div class="controls">
@@ -1038,7 +1067,7 @@
                 <input type="range" id="wmSize" min="0" max="100" value="0" step="1" />
               </div>
             </label>
-            <div class="help">⚡设为 0 时将自动根据图片尺寸调整</div>
+            <div class="help"><span data-ic="zap"></span>设为 0 时将自动根据图片尺寸调整</div>
           </div>
 
           <div class="control-group">
@@ -1079,10 +1108,10 @@
 
           <div class="advanced-toggle" id="advancedToggle">
             <div class="toggle-text">
-              <span>🔧</span>
+              <span data-ic="sliders"></span>
               <span>高级设置</span>
             </div>
-            <div class="toggle-icon">▼</div>
+            <div class="toggle-icon" data-ic="chevron"></div>
           </div>
 
           <div class="advanced-content" id="advancedContent">
@@ -1095,12 +1124,12 @@
               <input type="checkbox" id="stagger" checked style="cursor: pointer;" />
               <span class="label-text" style="margin: 0;font-weight: 500; color: var(--text);font-size: 13px;">交错排布</span>
             </div>
-            <div class="help option-help">💡 交错排布：相邻两行水印水平错开半个单元，形成更紧密的覆盖效果</div>
+            <div class="help option-help"><span data-ic="bulb"></span>交错排布：相邻两行水印水平错开半个单元，形成更紧密的覆盖效果</div>
           </div>
         </div>
 
         <div class="row" style="align-items: center;">
-          <button id="pickBtn" class="btn">选择图片</button>
+          <button id="pickBtn" class="btn" data-ic="image-plus">选择图片</button>
           <div class="stat" id="stats">未添加图片</div>
         </div>
       </section>
@@ -1108,7 +1137,7 @@
       <section class="workspace">
         <div class="panel previewWrap" id="previewWrap">
           <input id="fileInput" type="file" accept="image/*" multiple class="fileInput" title="点击或拖拽添加图片" />
-          <div id="dropHint" class="dropHint">拖拽图片到这里或点击添加</div>
+          <div id="dropHint" class="dropHint"><div class="drop-inner"><span class="drop-icon" data-ic="upload"></span>拖拽图片到这里或点击添加</div></div>
           <div class="previewPanel">
             <div class="previewBox"><canvas id="preview" width="1" height="1" aria-label="预览画布"></canvas></div>
           </div>
@@ -1118,7 +1147,7 @@
     </div>
 
     <footer style="margin-top: 1em;">
-      <div style="color: #9ca3af;line-height: 1.5;">🪪 证件全屏水印助手 v4.26</div>
+      <div style="color: #9ca3af;line-height: 1.5;"><span data-ic="id-card" style="margin-right:4px"></span>证件全屏水印助手 v4.26</div>
       <div class="meta-line">
         <a href="https://github.com/isharmla233/fullscreen-id-watermark" target="_blank" rel="noopener" class="class-links">
           <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
